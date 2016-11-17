@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.johnwayodi.cyclelogger.database.CLDatabase;
 import com.johnwayodi.cyclelogger.services.GPS_Service;
 
 public class CycleLogActivity extends AppCompatActivity {
@@ -17,6 +18,7 @@ public class CycleLogActivity extends AppCompatActivity {
     Button start_service, stop_service;
     TextView coordinates;
     BroadcastReceiver broadcastReceiver;
+    private Double latitude, longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,10 +59,29 @@ public class CycleLogActivity extends AppCompatActivity {
             broadcastReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
+
+                    latitude = (Double) intent.getExtras().get("latitude");
+                    longitude = (Double) intent.getExtras().get("longitude");
+
+//                    //add values to database
+//                    CLDatabase dbAdapter = new CLDatabase(getBaseContext());
+//                    dbAdapter.open();
+//                    dbAdapter.addLocation(latitude, longitude);
+//                    dbAdapter.close();
+
+//                    // append results to map the text view
+//                    coordinates.append("\nUpdated Coordinates: \n"
+//                            + "latitude: "+ intent.getExtras().get("latitude")
+//                            + "\nlongitude: "+ intent.getExtras().get("longitude"));
+
                     // append results to map the text view
                     coordinates.append("\nUpdated Coordinates: \n"
-                            + "latitude: "+ intent.getExtras().get("latitude")
-                            + "\nlongitude: "+ intent.getExtras().get("longitude"));
+                            + "latitude: "+ latitude
+                            + "\nlongitude: "+ longitude);
+
+
+
+
                 }
             };
         }
@@ -80,4 +101,6 @@ public class CycleLogActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
     }
+
+
 }

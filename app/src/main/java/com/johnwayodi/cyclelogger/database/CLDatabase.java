@@ -96,7 +96,7 @@ public class CLDatabase {
 //    }
 
     // Getting all location coordinates from database
-    public List<MyLocation> getAllDatabaseObjects() {
+    public ArrayList<MyLocation> getAllCoordinates() {
 
         ArrayList<MyLocation> dataList = new ArrayList<>();
 
@@ -117,7 +117,8 @@ public class CLDatabase {
             } while (cursor.moveToNext());
         }
 
-        // return database object list
+        cursor.close();
+        // return a list of coordinates
         return dataList;
     }
 
