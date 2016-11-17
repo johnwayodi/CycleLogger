@@ -79,21 +79,21 @@ public class CLDatabase {
         return newLocation;
     }
 
-    // Getting one database object by id
-    public MyLocation get_singleLocation(long id) {
-
-        Cursor cursor = sqLiteDatabase.query(COORDINATES_TABLE, allColumns, COORDINATES_ID + "=?",
-                new String[] { String.valueOf(id) }, null, null,null,null);
-        if (cursor != null)
-            cursor.moveToFirst();
-
-        MyLocation singleLocation = new MyLocation(
-                cursor.getDouble(0),
-                cursor.getDouble(1),
-                cursor.getLong(2));
-        // return database object
-        return singleLocation;
-    }
+//    // Getting one database object by id
+//    public MyLocation get_singleLocation(long id) {
+//
+//        Cursor cursor = sqLiteDatabase.query(COORDINATES_TABLE, allColumns, COORDINATES_ID + "=?",
+//                new String[] { String.valueOf(id) }, null, null,null,null);
+//        if (cursor != null)
+//            cursor.moveToFirst();
+//
+//        MyLocation singleLocation = new MyLocation(
+//                cursor.getDouble(0),
+//                cursor.getDouble(1),
+//                cursor.getLong(2));
+//        // return database object
+//        return singleLocation;
+//    }
 
     // Getting all location coordinates from database
     public List<MyLocation> getAllDatabaseObjects() {
