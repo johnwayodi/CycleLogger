@@ -21,7 +21,6 @@ public class GPS_Service extends Service {
 
     private LocationListener locationListener;
     private LocationManager locationManager;
-    private Double currentLatitude, currentLongitude;
 
     @Nullable
     @Override
@@ -35,19 +34,10 @@ public class GPS_Service extends Service {
             @Override
             public void onLocationChanged(Location location) {
 
-                currentLatitude = location.getLatitude();
-                currentLongitude = location.getLongitude();
-
-                //write values to database
-                //CLDatabase dbAdapter = new CLDatabase(getApplicationContext());
-                //dbAdapter.open();
-                //dbAdapter.addLocation(currentLatitude,currentLongitude);
-                //dbAdapter.close();
-
                 //create an intent to broadcast both latitude and longitude
                 Intent intent = new Intent("location_details");
-                intent.putExtra("latitude", currentLatitude);
-                intent.putExtra("longitude", currentLongitude);
+                intent.putExtra("latitude", location.getLatitude());
+                intent.putExtra("longitude", location.getLongitude());
                 sendBroadcast(intent);
             }
 
