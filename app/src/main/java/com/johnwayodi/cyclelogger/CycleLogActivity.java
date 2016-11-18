@@ -60,8 +60,8 @@ public class CycleLogActivity extends AppCompatActivity {
                 @Override
                 public void onReceive(Context context, Intent intent) {
 
-                    latitude = (Double) intent.getExtras().get("latitude");
-                    longitude = (Double) intent.getExtras().get("longitude");
+//                    latitude = (Double) intent.getExtras().get("latitude");
+//                    longitude = (Double) intent.getExtras().get("longitude");
 
 //                    //add values to database
 //                    CLDatabase dbAdapter = new CLDatabase(getBaseContext());
@@ -69,15 +69,15 @@ public class CycleLogActivity extends AppCompatActivity {
 //                    dbAdapter.addLocation(latitude, longitude);
 //                    dbAdapter.close();
 
-//                    // append results to map the text view
-//                    coordinates.append("\nUpdated Coordinates: \n"
-//                            + "latitude: "+ intent.getExtras().get("latitude")
-//                            + "\nlongitude: "+ intent.getExtras().get("longitude"));
-
                     // append results to map the text view
                     coordinates.append("\nUpdated Coordinates: \n"
-                            + "latitude: "+ latitude
-                            + "\nlongitude: "+ longitude);
+                            + "latitude: "+ intent.getExtras().get("latitude")
+                            + "\nlongitude: "+ intent.getExtras().get("longitude"));
+
+//                    // append results to map the text view
+//                    coordinates.append("\nUpdated Coordinates: \n"
+//                            + "latitude: "+ latitude
+//                            + "\nlongitude: "+ longitude);
 
 
 
