@@ -7,8 +7,8 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 
 public class SplashActivity extends AppCompatActivity {
-    private static final int STOPSPLASH = 0;
-    private static final long SPLASHTIME = 5000;
+    private static final int STOP_SPLASH = 0;
+    private static final long SPLASH_TIME = 5000;
 
 
     @Override
@@ -16,8 +16,8 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         Message msg = new Message();
-        msg.what = STOPSPLASH;
-        splashHandler.sendMessageDelayed(msg, SPLASHTIME);
+        msg.what = STOP_SPLASH;
+        splashHandler.sendMessageDelayed(msg, SPLASH_TIME);
     }
 
 
@@ -26,7 +26,7 @@ public class SplashActivity extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case STOPSPLASH:
+                case STOP_SPLASH:
                     //remove SplashScreen from view
                     Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                     startActivity(intent);

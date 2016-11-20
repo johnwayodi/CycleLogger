@@ -1,29 +1,36 @@
 package com.johnwayodi.cyclelogger;
 
 
+import android.app.ListFragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+
+import com.johnwayodi.cyclelogger.database.CLDatabase;
+import com.johnwayodi.cyclelogger.models.Trip;
+
+import java.util.ArrayList;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShowLogFrag extends Fragment {
+public class ShowLogFrag extends ListFragment {
 
-
-    public ShowLogFrag() {
-        // Required empty public constructor
-    }
-
+    private ArrayList<Trip> trips;
+    private TripAdapter tripAdapter;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_show_log, container, false);
-    }
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
+        CLDatabase dbAdapter = new CLDatabase(getActivity().getBaseContext());
+        dbAdapter.open();
+        trips = dbAdapter.getAllTrips();
+        dbAdapter.close();
+
+        tripAdapter = new TripAdapter(getActivity(), trips);
+        setListAdapter(tripAdapter);
+
+        registerForContextMenu(getListView());
+    }
 }

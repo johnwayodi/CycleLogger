@@ -18,7 +18,7 @@ public class CycleLogActivity extends AppCompatActivity {
     Button start_service, stop_service;
     TextView coordinates;
     BroadcastReceiver broadcastReceiver;
-    private Double latitude, longitude;
+//    private Double latitude, longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +71,8 @@ public class CycleLogActivity extends AppCompatActivity {
 
                     // append results to map the text view
                     coordinates.append("\nUpdated Coordinates: \n"
-                            + "latitude: "+ intent.getExtras().get("latitude")
-                            + "\nlongitude: "+ intent.getExtras().get("longitude"));
+                            + "latitude: " + intent.getExtras().get("latitude")
+                            + "\nlongitude: " + intent.getExtras().get("longitude"));
 
 //                    // append results to map the text view
 //                    coordinates.append("\nUpdated Coordinates: \n"

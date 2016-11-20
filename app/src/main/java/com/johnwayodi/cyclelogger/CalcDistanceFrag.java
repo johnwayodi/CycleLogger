@@ -65,8 +65,19 @@ public class CalcDistanceFrag extends Fragment {
                     unit);
             totalDistance = totalDistance + distance;
         }
+
+        saveToDatabase(totalDistance);
         return totalDistance;
 
+    }
+
+    //save the trip distance to database
+    private void saveToDatabase(double value){
+
+        CLDatabase dbAdapter = new CLDatabase(getActivity().getBaseContext());
+        dbAdapter.open();
+        dbAdapter.addTrip(value);
+        dbAdapter.close();
     }
 
 }
