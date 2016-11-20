@@ -19,8 +19,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //TODO: FIND ERROR THAT CAUSES ACTIVITY NOT TO LAUNCH.
+        
         //TODO: LOWER OR REMOVE GOOGLE SERVICES( NOT NEEDED).
         //TODO: FIND WAY TO CALL SPLASH SCREEN ONLY ONCE.
 
@@ -37,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
                     // initialize the CycleLogActivity
                     start_cycle_log_activity();
                 }
+                else
+                    check_permissions();
             }
         });
 
