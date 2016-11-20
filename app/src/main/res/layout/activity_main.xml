@@ -13,4 +13,13 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="164dp"
         android:id="@+id/cycle_log_btn" />
+
+    <Button
+        android:text="Log"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/cycle_log_btn"
+        android:layout_alignEnd="@+id/cycle_log_btn"
+        android:layout_marginTop="68dp"
+        android:id="@+id/log_button" />
 </RelativeLayout>
