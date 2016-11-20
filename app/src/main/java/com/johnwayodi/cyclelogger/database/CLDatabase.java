@@ -7,9 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.johnwayodi.cyclelogger.models.MyLocation;
+import com.johnwayodi.cyclelogger.models.Trip;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -22,17 +22,14 @@ public class CLDatabase {
     private static final String DATABASE_NAME = "cyclelog.db";
     private static final int DATABASE_VERSION = 1;
 
-    private static final String COORDINATES_TABLE = "coordinates";
-    private static final String COORDINATES_ID = "_id";
-    private static final String COORDINATES_LAT = "latitude";
-    private static final String COORDINATES_LONG = "longitude";
+    public static final String CREATE_COORDINATES_TABLE = "create table " + CoordinatesTable.TABLE_NAME + " ( "
+            + CoordinatesTable.ID + " integer primary key autoincrement, "
+            + CoordinatesTable.LATITUDE + " text not null, "
+            + CoordinatesTable.LONGITUDE + " text not null" + ");";
 
-    private String[] allColumns = {COORDINATES_ID, COORDINATES_LAT, COORDINATES_LONG};
-
-    public static final String CREATE_COORDINATES_TABLE = "create table " + COORDINATES_TABLE + " ( "
-            + COORDINATES_ID + " integer primary key autoincrement, "
-            + COORDINATES_LAT + " text not null, "
-            + COORDINATES_LONG + " text not null" + ");";
+    public static final String CREATE_TRIPS_TABLE = "create table " + TripsTable.TABLE_NAME + " ( "
+            + TripsTable.ID + " integer primary key autoincrement, "
+            + TripsTable.DISTANCE + " text not null " + ");";
 
     private SQLiteDatabase sqLiteDatabase;
     private Context context;
@@ -49,19 +46,33 @@ public class CLDatabase {
         return this;
     }
 
-    //adding a new location to database
+    // add new location to database
     public MyLocation addLocation(double lat, double lng){
         ContentValues values = new ContentValues();
-        values.put(COORDINATES_LAT, lat);
-        values.put(COORDINATES_LONG, lng);
+        values.put(CoordinatesTable.LATITUDE, lat);
+        values.put(CoordinatesTable.LONGITUDE, lng);
 
-        long insertId = sqLiteDatabase.insert(COORDINATES_TABLE, null, values);
+        long insertId = sqLiteDatabase.insert(CoordinatesTable.TABLE_NAME, null, values);
 
-        Cursor cursor = sqLiteDatabase.query(COORDINATES_TABLE, allColumns, COORDINATES_ID + " = " + insertId, null, null, null, null);
+        Cursor cursor = sqLiteDatabase.query(CoordinatesTable.TABLE_NAME, CoordinatesTable.allColumns, CoordinatesTable.ID + " = " + insertId, null, null, null, null);
         cursor.moveToFirst();
         MyLocation newLocation = cursorToLocation(cursor);
         cursor.close();
         return newLocation;
+    }
+
+    // add new trip to database
+    public Trip addTrip(double distance){
+        ContentValues values = new ContentValues();
+        values.put(TripsTable.DISTANCE, distance);
+
+        long insertId = sqLiteDatabase.insert(TripsTable.TABLE_NAME, null, values);
+
+        Cursor cursor = sqLiteDatabase.query(TripsTable.TABLE_NAME, TripsTable.allColumns, TripsTable.ID + " = " + insertId, null, null, null, null);
+        cursor.moveToFirst();
+        Trip newTrip = cursorToTrip(cursor);
+        cursor.close();
+        return newTrip;
     }
 
 
@@ -79,21 +90,13 @@ public class CLDatabase {
         return newLocation;
     }
 
-//    // Getting one database object by id
-//    public MyLocation get_singleLocation(long id) {
-//
-//        Cursor cursor = sqLiteDatabase.query(COORDINATES_TABLE, allColumns, COORDINATES_ID + "=?",
-//                new String[] { String.valueOf(id) }, null, null,null,null);
-//        if (cursor != null)
-//            cursor.moveToFirst();
-//
-//        MyLocation singleLocation = new MyLocation(
-//                cursor.getDouble(0),
-//                cursor.getDouble(1),
-//                cursor.getLong(2));
-//        // return database object
-//        return singleLocation;
-//    }
+    private Trip cursorToTrip(Cursor cursor){
+        Trip newTrip = new Trip(
+                cursor.getDouble(1),
+                cursor.getLong(2));
+
+        return newTrip;
+    }
 
     // Getting all location coordinates from database
     public ArrayList<MyLocation> getAllCoordinates() {
@@ -101,7 +104,7 @@ public class CLDatabase {
         ArrayList<MyLocation> dataList = new ArrayList<>();
 
         //  Select All Query
-        String selectQuery = "SELECT * FROM " + COORDINATES_TABLE;
+        String selectQuery = "SELECT * FROM " + CoordinatesTable.TABLE_NAME;
 
         Cursor cursor = sqLiteDatabase.rawQuery(selectQuery, null);
 
@@ -122,6 +125,30 @@ public class CLDatabase {
         return dataList;
     }
 
+    public ArrayList<Trip> getAllTrips(){
+        ArrayList<Trip> tripList = new ArrayList<>();
+
+        // Select All Query
+        String selectQuery = "SELECT * FROM " + TripsTable.TABLE_NAME;
+
+        Cursor cursor = sqLiteDatabase.rawQuery(selectQuery,null);
+
+        // loop through all rows and add trips to triplist
+        if (cursor.moveToFirst()) {
+            do {
+                Trip data = new Trip();
+                data.setDist( cursor.getDouble(0));
+                data.setId( cursor.getLong(2));
+                //   Adding a trip to triplist
+                tripList.add(data);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        // return a list of trips
+        return tripList;
+    }
+
     private static class DbHelper extends SQLiteOpenHelper{
 
         DbHelper(Context context1){
@@ -131,13 +158,15 @@ public class CLDatabase {
         @Override
         public void onCreate(SQLiteDatabase db) {
             db.execSQL(CREATE_COORDINATES_TABLE);
+            db.execSQL(CREATE_TRIPS_TABLE);
 
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             //delete the note table and create new one
-            db.execSQL("DROP TABLE IF EXISTS " + COORDINATES_TABLE);
+            db.execSQL("DROP TABLE IF EXISTS " + CoordinatesTable.TABLE_NAME);
+            db.execSQL("DROP TABLE IF EXISTS " + TripsTable.TABLE_NAME);
             onCreate(db);
 
         }
