@@ -71,8 +71,8 @@ public class CycleLogActivity extends AppCompatActivity {
 
                     // append results to map the text view
                     coordinates.append("\nUpdated Coordinates: \n"
-                            + "latitude: " + intent.getExtras().get("latitude")
-                            + "\nlongitude: " + intent.getExtras().get("longitude"));
+                            + "latitude: " + intent.getExtras().get("latitude").toString()
+                            + "\nlongitude: " + intent.getExtras().get("longitude").toString());
 
 //                    // append results to map the text view
 //                    coordinates.append("\nUpdated Coordinates: \n"
