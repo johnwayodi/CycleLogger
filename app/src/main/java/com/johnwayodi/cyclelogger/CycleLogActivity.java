@@ -25,9 +25,9 @@ public class CycleLogActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cycle_log);
 
-        start_service = (Button) findViewById(R.id.start_service_btn);
-        stop_service = (Button) findViewById(R.id.stop_service_btn);
-        coordinates = (TextView) findViewById(R.id.coordinates_view);
+        start_service = findViewById(R.id.start_service_btn);
+        stop_service = findViewById(R.id.stop_service_btn);
+        coordinates = findViewById(R.id.coordinates_view);
 
         start_service.setOnClickListener(new View.OnClickListener() {
             @Override
